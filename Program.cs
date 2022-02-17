@@ -16,6 +16,8 @@ namespace ConsoleApp4
         {
             Player curPlayer = null;
             Monster curMonster = null;
+            bool playerAttacking, monsterAttacking;
+            
             if (curPlayer == null || curPlayer.Dead)
             {
                 curPlayer = SpawnPlayer();
@@ -25,8 +27,11 @@ namespace ConsoleApp4
             {
                 if (curMonster == null || curMonster.Dead)
                 {
-                    curMonster = SpawnMonster();
+                    curMonster = SpawnMonster(curPlayer.Level);
                     Console.WriteLine(curMonster.ID);
+                    Console.WriteLine("A monster is before you, \n" +
+                        "Health: {0} \n" + "Damage: {1} \n", curMonster.Health, curMonster.Damage);
+                    Console.ReadLine();
                 }
             }
         }
@@ -39,14 +44,15 @@ namespace ConsoleApp4
                 Level = 1,
                 Dead = false,
             };
+            // Creates player obviously
             return player;
         }
-        public static Monster SpawnMonster()
+        public static Monster SpawnMonster(int playerLevel)
         {
             Random random = new Random();
             Monster monster = new Monster
             {
-                Health = 100,
+                Health = 100 * (playerLevel * 0.5),
                 Damage = 5,
                 XPOnKill = (float)RandomExtension.NextDoubleRange(random, 0, 3.5),
                 ID = random.Next(0, 999),
@@ -64,7 +70,7 @@ namespace ConsoleApp4
     }
     public class Monster
     {
-        public int Health;
+        public double Health;
         public float Damage;
         public float XPOnKill;
         public bool Dead;
