@@ -50,6 +50,7 @@ namespace ConsoleApp4
                     if (rolledDamage == 0)
                     {
                         Console.WriteLine("Enemy dodged your attack!");
+                        Run();
                     }
                     else
                     {
@@ -61,7 +62,18 @@ namespace ConsoleApp4
                 }
             } else
             {
-                RollEffects(curMonster.Damage, curMonster, playerAttacking);
+                float rolledDamage = RollEffects(curMonster.Damage, curMonster, playerAttacking);
+                if(rolledDamage == 0)
+                {
+                    Console.WriteLine("you dodged the enemies attack!");
+                    Run();
+                } else
+                {
+                    Console.WriteLine("\\nThe enemy did {0} damage to you! \n" +
+                        "Your health is now {1}", rolledDamage, curPlayer.Health);
+                    Run();
+                }
+
             }
 
             Console.ReadLine();
